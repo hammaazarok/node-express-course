@@ -10,4 +10,4 @@ customEmitter.on('response', () => {
   console.log(`some other thing `);
 });
 
-customEmitter.emit('response', 'Amejid', 24);
+customEmitter.emit('response', 'ali', 34);
