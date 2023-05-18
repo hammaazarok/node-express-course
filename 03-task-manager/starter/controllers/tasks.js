@@ -25,7 +25,7 @@ exports.getTask = asyncWrapper(async (req, res, next) => {
 
 exports.updateTask = asyncWrapper(async (req, res) => {
   const { id } = req.params;
-  const task = await Task.findOneAndUpdate(id, req.body, {
+  const task = await Task.findOneAndUpdate({_id : id}, req.body, {
     new: true,
     runValidators: true,
   });
@@ -39,7 +39,7 @@ exports.updateTask = asyncWrapper(async (req, res) => {
 
 exports.deleteTask = asyncWrapper(async (req, res) => {
   const { id } = req.params;
-  const task = await Task.findOneAndRemove(id);
+  const task = await Task.findOneAndRemove({_id : id});
 
   if (!task) {
     return next(createCustomError(`No task with ID: ${id}`, 404));
