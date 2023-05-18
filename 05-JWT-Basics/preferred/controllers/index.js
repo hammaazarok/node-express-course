@@ -8,15 +8,24 @@ const signToken = (name) =>
 const logon = async (req, res) => {
   const { name } = req.body;
 
-  const token = signToken(name);
+  if (name){
+    const token = signToken(name);
+    res.status(200).json({ token });
+  }else{
+    res.status(400).json({ message: "name parameter is required" });
+  }
 
-  res.status(200).json({ token });
 };
 
 const hello = async (req, res) => {
   const { name } = req.user;
+  if (name) {
+    res.status(200).json({ message: `Welcome to CTD ${name}` });
+  } else {
+    res.status(400).json({ message: "name parameter is required" });
+  }
 
-  res.status(200).json({ message: `Welcome to CTD ${name}` });
+
 };
 
 module.exports = { logon, hello };

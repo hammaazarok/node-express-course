@@ -2,7 +2,8 @@ const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 
 const protect = async (req, res, next) => {
-  const token = req.headers?.authorization?.split(' ')[1];
+  const token = req.headers?.authorization?.split('Bearer ')[1];
+  console.log(req.headers?.authorization?.split('Bearer '))
   if (!token) {
     return res.status(401).json({ message: 'unauthorized' });
   }
@@ -10,9 +11,9 @@ const protect = async (req, res, next) => {
   let decoded;
 
   try {
-    decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {
-    return res.status(401).json({ message: 'unauthorized' });
+    return res.status(401).json({ message: err });
   }
 
   req.user = { name: decoded.username };
